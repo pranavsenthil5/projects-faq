@@ -13,56 +13,46 @@
         <div class="center">
                 <div class="example">
                         <input id="search-field" type="text" placeholder="Covid search" name="search">
-                        <button type="submit" onclick="doFunc()"><i class="fa fa-search"></i></button>
+                        <button type="submit" onclick="getDataFunc()"><i class="fa fa-search"></i></button>
                 </div>
         </div>
         <ul class="search-results"></ul>
         <script>
+                function printToConsole(data)
+                {
+                        console.log(data);
+                }       
+
                 function getData(url) {
                                 const response = fetch(url);
                                 return response.json();
                 }
-                function doFunc() 
+                function getDataFunc() 
                 {
                         fetch('./covid_faq_data.json')
                                 .then(response => {
                                         return response.json();
-                                })
-                                .then(data => console.log(data));
-                        // const data = getData('./covid_faq_data.json');
-                        // console.log(data);
+                                }).then(data => runLunr(data))
+                                //.then(data => printToConsole(data));
+                                // .then(data => console.log(data));
                         
-                        // let jsondata;
-                        // fetch('./covid_faq_data.json').then(
-                        //         function (u) { return u.json(); }
-                        // ).then(
-                        //         function (json) {
-                        //                 jsondata = json;
-                        //         }
-                        // )
-                        // console.log(jsondata);
-                        // fetch('./covid_faq_data.json')
-                        //         .then((response) => response.json())
-                        //         .then((json) => console.log(json));
-
                         // runLunr()
-                        // document.getElementById("demo").style.color = "red";
                         // text = document.getElementById("search-field").value;
 
                 }
 
-                // function runLunr()
-                // {
-                //         var idx = lunr(function () {
-                //                 this.ref('id');
-                //                 this.field('questions');
-                //                 this.field('answers');
+                function runLunr()
+                {
+                        var idx = lunr(function () {
+                                this.ref('id');
+                                this.field('questions');
+                                this.field('answers');
 
-                //                 documents.forEach(function (doc) {
-                //                         this.add(doc)
-                //                 }, this)
-                //         })
-                // }
+                                documents.forEach(function (doc) {
+                                        this.add(doc)
+                                }, this)
+                        })
+                }
         </script>
 
 </body>
