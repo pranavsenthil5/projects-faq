@@ -2,59 +2,62 @@
 <html>
 
 <head>
-        <link rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://unpkg.com/lunr/lunr.js"></script>
-        <script type="text/javascript" src="covid_faq_data.json"></script>
-        
-</head>
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+        <script type="module" src="https://md-block.verou.me/md-block.js"></script>
 
-<body>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        {% if page.mermaid == true %}
+        
+        {% endif %}
+
+
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <script src="script.js"></script>
+        
+    </head>
+    
+    <body onload="readJSON();">
         <div class="center">
-                <div class="example">
-                        <input id="search-field" type="text" placeholder="Covid search" name="search">
-                        <button type="submit" onclick="getDataFunc()"><i class="fa fa-search"></i></button>
-                </div>
+            <div class="example">
+                <input id="search-field" type="text" placeholder="Covid search" name="search">
+                <button type="submit" onclick="test()"><i class="fa fa-search"></i></button>
+            </div>
         </div>
         <ul class="search-results"></ul>
+        <div class='mermaid'>
+            graph TD;
+            
+            A --> B
+            A --> C
+            B --> C
+            B --> B
+        </div>
+
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js"></script> -->
         <script>
-                function printToConsole(data)
-                {
-                        console.log(data);
-                }       
-
-                function getData(url) {
-                                const response = fetch(url);
-                                return response.json();
+            test();
+            var config = {
+                startOnLoad: true,
+                theme: 'forest',
+                flowchart: {
+                    useMaxWidth: false,
+                    htmlLabels: true
                 }
-                function getDataFunc() 
-                {
-                        fetch('./covid_faq_data.json')
-                                .then(response => {
-                                        return response.json();
-                                }).then(data => runLunr(data))
-                                //.then(data => printToConsole(data));
-                                // .then(data => console.log(data));
-                        
-                        // runLunr()
-                        // text = document.getElementById("search-field").value;
-
-                }
-
-                function runLunr()
-                {
-                        var idx = lunr(function () {
-                                this.ref('id');
-                                this.field('questions');
-                                this.field('answers');
-
-                                documents.forEach(function (doc) {
-                                        this.add(doc)
-                                }, this)
-                        })
-                }
+            };
+            mermaid.initialize(config);
+            window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
         </script>
 
-</body>
+        <!-- <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script> -->
 
-</html>
+
+        <div id="content"></div>
+        
+    </body>
+    
+    </html>
